@@ -1,0 +1,72 @@
+[gd_scene load_steps=8 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type spatial;
+
+
+uniform sampler2D uv_offset_texture : hint_black;
+
+uniform vec2 uv_offset_scale =vec2(-0.2,-0.1);
+
+uniform vec2 time_scale= vec2(0.3,0.0);
+
+uniform float face_distrotion= 0.5 ;
+
+void vertex(){
+	vec2 base_uv_offset = UV * uv_offset_scale;
+	
+	base_uv_offset += TIME*time_scale;
+	float noise = texture(uv_offset_texture, base_uv_offset).r;
+	
+	float textrue_based_offset = noise * 2.0 - 1.0;
+	textrue_based_offset *= UV.x;
+	
+	VERTEX.y += textrue_based_offset;
+	VERTEX.z += textrue_based_offset * face_distrotion;
+	VERTEX.x += textrue_based_offset * -face_distrotion;
+	
+
+}
+
+"
+
+[sub_resource type="OpenSimplexNoise" id=2]
+
+[sub_resource type="NoiseTexture" id=3]
+seamless = true
+noise = SubResource( 2 )
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 1 )
+shader_param/uv_offset_scale = Vector2( -0.2, -0.1 )
+shader_param/time_scale = Vector2( 0.3, 0 )
+shader_param/face_distrotion = 0.5
+shader_param/uv_offset_texture = SubResource( 3 )
+
+[sub_resource type="PlaneMesh" id=5]
+material = SubResource( 4 )
+size = Vector2( 3, 2 )
+subdivide_width = 50
+subdivide_depth = 50
+
+[sub_resource type="CapsuleMesh" id=6]
+
+[sub_resource type="BoxShape" id=7]
+extents = Vector3( 1.58785, 0.702073, 2.51803 )
+
+[node name="Spatial" type="Spatial"]
+
+[node name="RigidBody" type="RigidBody" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="RigidBody"]
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="MeshInstance2" type="MeshInstance" parent="RigidBody"]
+transform = Transform( -0.0399538, 0, 0, 0, -0.073744, 0, 0, 0, -1.85575, -1.50335, 0, 1.73086 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="RigidBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.33912 )
+shape = SubResource( 7 )

@@ -1,0 +1,76 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://new_dynamicfont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://interface/fonts/Montserrat-ExtraBold.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://interface/Control.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 24
+font_data = ExtResource( 2 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="column" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 343.0
+margin_top = 246.0
+margin_right = 680.0
+margin_bottom = 353.0
+
+[node name="title" type="Label" parent="CenterContainer/column"]
+margin_right = 337.0
+margin_bottom = 31.0
+custom_fonts/font = ExtResource( 1 )
+text = "Success  :) !"
+align = 1
+
+[node name="time" type="Label" parent="CenterContainer/column"]
+margin_top = 35.0
+margin_right = 337.0
+margin_bottom = 66.0
+custom_fonts/font = SubResource( 1 )
+text = "your time to success was :"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="row" type="HBoxContainer" parent="CenterContainer/column"]
+margin_top = 70.0
+margin_right = 337.0
+margin_bottom = 107.0
+
+[node name="try" type="Button" parent="CenterContainer/column/row"]
+margin_right = 166.0
+margin_bottom = 37.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 1 )
+text = "try agen"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="exit" type="Button" parent="CenterContainer/column/row"]
+margin_left = 170.0
+margin_right = 337.0
+margin_bottom = 37.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 1 )
+text = "Exit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="CenterContainer/column/row/try" to="." method="_on_try_pressed"]
+[connection signal="pressed" from="CenterContainer/column/row/exit" to="." method="_on_exit_pressed"]
